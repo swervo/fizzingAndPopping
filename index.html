@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" manifest="fizzPop.manifest">
+    <head>
+        <link rel="stylesheet" href="css/styles.css">
+        <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+    	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta charset="utf-8">
+        <title>Fizzing & Popping</title>
+    </head>
+    <body>
+        <div class="background">
+            <canvas id="topCanvas" width="320" height="180"></canvas>
+            <div class="banner">
+                <div class="buttonSurround">
+                    <span id="title">Fizzin' <span class="openamp">&</span> Popping</span>
+                    <span id="link">Seb Lee Delisle's <span id="hash">#creativejs</span></span>
+                </div>
+            </div>
+            <canvas id="lowerCanvas" width="320" height="180"></canvas>
+            <span id="version">0.0.5</span>
+            <span id="author">demo by @swervo</span>
+        </div>
+        <script src="scripts/Vector.js" type="text/javascript"></script>
+        <script src="scripts/Bubbles.js" type="text/javascript"></script>
+        <script src="scripts/Balloons.js" type="text/javascript"></script>
+        <script src="scripts/BurstParticle.js" type="text/javascript"></script>
+        <script src="scripts/start.js" type="text/javascript"></script>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+CACHE MANIFEST
+
+
+#
+# Cache manifest
+# @swervo
+# http://swervo.tumblr.com
+# https://github.com/swervoCode
+
+# version 0.0.5
+
+css/fonts/karma-openamp.eot
+css/fonts/karma-openamp.svg
+css/fonts/karma-openamp.ttf
+css/fonts/karma-openamp.woff
+css/styles.css
+
+images/bubble.png
+
+index.html
+
+scripts/Balloons.js
+scripts/Bubbles.js
+scripts/BurstParticle.js
+scripts/start.js
+scripts/Vector.js
+
+
