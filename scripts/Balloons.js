@@ -2,6 +2,7 @@
 
 /* global thisApp:false */
 /* global Vector:false */
+/* global BurstParticle:false */
 
 function Balloon (aCanvas, aSourceImage) {
     this.canvas = aCanvas;
@@ -83,7 +84,6 @@ function Balloons(aCanvas, aNum, aSourceImage) {
     this.spareBurstPs = [];
     this.numOfBalloons = aNum;
     this.makeBalloons();
-    // console.dir(this.balloonList);
 }
 
 Balloons.prototype = {

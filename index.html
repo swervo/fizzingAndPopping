@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <head>
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <link rel="apple-touch-icon" href="http://www.papersnail.co.uk/images/icons/Icon-57.png"/>
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.papersnail.co.uk/images/icons/Icon-72.png"/>
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.papersnail.co.uk/images/icons/Icon-57@2x.png"/>
+        <link rel="apple-touch-icon" sizes="144x144" href="http://www.papersnail.co.uk/images/icons/Icon-72@2x.png"/>
+        <!-- iOS Full Screen -->
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="stylesheet" href="css/styles.css">
@@ -11,15 +16,15 @@
     </head>
     <body>
         <div class="background">
-            <canvas id="topCanvas" width="320" height="180"></canvas>
+            <canvas id="balloonCanvas" class="balloonCanvas" width="320" height="229"></canvas>
             <div class="banner">
-                <div class="buttonSurround">
+                <div class="titleSurround">
                     Fizzin' & Popping
                 </div>
             </div>
             <div class="lowerCanvasContainer">
-                <canvas id="lowerCanvas" width="320" height="180"></canvas>
-                <span class="author" id="author">demo by @swervo</span>
+                <canvas id="bubbleCanvas" class="bubbleCanvas" width="320" height="229"></canvas>
+                <a href="http://twitter.com/swervo"><div class="author">demo by @swervo</div></a>
             </div>
         </div>
         <script src="scripts/Vector.js" type="text/javascript"></script>

@@ -8,8 +8,8 @@ var thisApp = {
 };
 
 (function (aObj) {
-    var lowerCanvas = document.getElementById("lowerCanvas");
-    var topCanvas = document.getElementById("topCanvas");
+    var bubbleCanvas = document.getElementById("bubbleCanvas");
+    var balloonCanvas = document.getElementById("balloonCanvas");
 
     // misc
     var interval, os, eventType, eventHandler;
@@ -17,9 +17,6 @@ var thisApp = {
     var bubbleImage = new Image();
 
     bubbleImage.src = "images/bubble.png";
-
-    var bubbleCanvas = lowerCanvas;
-    var balloonCanvas = topCanvas;
 
     aObj.utils = {
         updateStage: undefined,
@@ -58,23 +55,36 @@ var thisApp = {
             }
             if (iphone) {
                 os.ios = true;
-                os.version = iphone[2].replace(/_/g, '.');
+                os.version = iphone[2].replace(/_/g, ".");
                 os.iphone = true;
-            };
+            }
             if (ipad) {
                 os.ios = true;
-                os.version = ipad[2].replace(/_/g, '.');
+                os.version = ipad[2].replace(/_/g, ".");
                 os.ipad = true;
-            };
+            }
             if (webos) {
                 os.webos = true;
                 os.version = webos[2];
-            };
+            }
             if (blackberry) {
                 os.blackberry = true;
                 os.version = blackberry[2];
-            };
+            }
             return os;
+        },
+
+        setCanvasDimensions: function (aCanvas) {
+            var boundingRect = aCanvas.getBoundingClientRect();
+            this.canvasHeight = boundingRect.height;
+            this.canvasWidth = boundingRect.width;
+        },
+
+        normaliseLoc: function (aLoc) {
+            var nLoc = {};
+            nLoc.locX = aLoc.locX * 320/this.canvasWidth;
+            nLoc.locY = aLoc.locY * 229/this.canvasHeight;
+            return (nLoc);
         },
 
         isWebkit: function () {
@@ -84,6 +94,8 @@ var thisApp = {
 
         FULL_CIRCLE: Math.PI * 2
     };
+
+    aObj.utils.setCanvasDimensions(balloonCanvas);
 
     // BUBBLES
     aObj.bubbles = new Bubbles(bubbleCanvas, 18, bubbleImage);
@@ -97,54 +109,35 @@ var thisApp = {
     interval = setInterval(aObj.utils.updateStage, 1000 / 30);
     os = aObj.utils.whichOS();
 
-    function touchHandler (e) {
-        var touchEvent = e.touches[0],
-            hitPoint = {};
-        if (touchEvent.target.id === "topCanvas") {
-            hitPoint.locX = touchEvent.pageX;
-            hitPoint.locY = touchEvent.pageY;
-            // take the coordinates and pass them to the Balloons handler
-            aObj.balloons.hitTest(hitPoint);
+    function eventHandler (e) {
+        var event = e;
+        if (os.ios || os.android) {
+            event = e.touches[0];
         }
-        // prevent scrolling and enable :active pseudo-class
-        e.stopPropagation();
-        e.preventDefault();
-    };
-
-    function mouseHandler (e) {
-        if (navigator.onLine) {
-            if (e.target.id === "author") {
-                window.open("http://twitter.com/swervo", "_blank");
-            } else if (e.target.id === "topCanvas") {
-                var hitPoint = {};
-                hitPoint.locX = e.offsetX;
-                hitPoint.locY = e.offsetY;
-                // take the coordinates and pass them to the Balloons handler
-                aObj.balloons.hitTest(hitPoint);
-            }
-        } else {
-            // seems that navigator.onLine always returns true on the desktop
-            alert("offline");
+        if (event.target.id === "balloonCanvas") {
+            // take the coordinates and pass them
+            // to the Balloons handler after normalising
+            var nPoint = aObj.utils.normaliseLoc({
+                locX: event.pageX,
+                locY: event.pageY
+            });
+            aObj.balloons.hitTest(nPoint);
         }
-        e.stopPropagation();
-        e.preventDefault();
-    };
+    }
 
-    eventType = "click";
-    eventHandler = mouseHandler;
-
-    if (os.ios || os.android || os.webos || os.blackberry) {
-        eventType = "touchstart";
-        eventHandler = touchHandler;
-    };
+    eventType = (os.ios || os.android) ? "touchstart" : "click";
 
     document.addEventListener(eventType, eventHandler, false);
-
-    //hide the address bar in mobile safari
-    window.addEventListener("DOMContentLoaded", function () {
-        setTimeout(function () {
-            window.scrollTo(0, 0);
-        }, 500);
-    }, true);
+    // prevent scrolling and enable :active pseudo-class
+    document.addEventListener("touchmove", function(e) {
+        e.preventDefault();
+    });
+    // for when running in CSS media query test rig
+    // see: http://www.papersnail.co.uk/sandbox/shell/index.html
+    window.addEventListener("message", function(e) {
+        if (e.data === "frameResize") {
+            document.location.reload();
+        }
+    });
 
 })(thisApp);
