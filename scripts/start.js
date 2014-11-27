@@ -40,6 +40,17 @@ var thisApp = {
             return ((Math.random() * (aMax - aMin)) + aMin);
         },
 
+        debounce: function debounce(fn, delay) {
+            var timer = null;
+            return function () {
+                var context = this, args = arguments;
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    fn.apply(context, args);
+                }, delay);
+            };
+        },
+
         // These two functions based on the excellent Zepto.js by Thomas Fuchs and other contributors.
         whichOS: function () {
             var os = {},
@@ -125,6 +136,10 @@ var thisApp = {
         }
     }
 
+    function recalibrate () {
+        return aObj.utils.debounce(aObj.utils.setCanvasDimensions(balloonCanvas), 100);
+    }
+
     eventType = (os.ios || os.android) ? "touchstart" : "click";
 
     document.addEventListener(eventType, eventHandler, false);
@@ -132,11 +147,13 @@ var thisApp = {
     document.addEventListener("touchmove", function(e) {
         e.preventDefault();
     });
+    window.addEventListener("orientationchange", recalibrate);
+    window.addEventListener("resize", recalibrate);
     // for when running in CSS media query test rig
     // see: http://www.papersnail.co.uk/sandbox/shell/index.html
     window.addEventListener("message", function(e) {
         if (e.data === "frameResize") {
-            document.location.reload();
+            recalibrate();
         }
     });
 
